@@ -76,25 +76,16 @@ chmod 600 ~/.openclaw/workspace/.env
 
 ### Step 3: Update OpenClaw Configuration
 
-Add skills to your `~/.openclaw/openclaw.json`:
+Skills are **auto-loaded** from `~/.claude/skills/` — no need to list them in `openclaw.json`.
+
+Just make sure your `~/.openclaw/openclaw.json` has this minimal skills config:
 
 ```json
 {
   "skills": {
     "install": {
       "nodeManager": "npm"
-    },
-    "enabled": [
-      "markitdown",
-      "xlsx-skill", 
-      "data-visualization",
-      "statistical-analysis",
-      "deploy-to-live",
-      "coding-reference-hub",
-      "communication-humanizer",
-      "anti-hallucination", 
-      "strategic-decisions"
-    ]
+    }
   }
 }
 ```
@@ -210,7 +201,7 @@ Prevents data fabrication:
 
 ### "Skill not found" errors:
 - Check `ls ~/.claude/skills/` shows all extracted skills
-- Verify `openclaw.json` has skills listed in `enabled` array
+- Skills are auto-loaded from `~/.claude/skills/` — no config needed
 - Restart OpenClaw after config changes
 
 ### Python package errors:
