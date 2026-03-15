@@ -15,17 +15,26 @@ echo "========================"
 # 1. Skills
 echo "📦 Deploying skills..."
 mkdir -p "$SKILLS_DIR"
-for skill_dir in "$REPO_DIR"/*/; do
-  skill_name=$(basename "$skill_dir")
-  # Skip non-skill dirs
-  [[ "$skill_name" == "workspace" ]] && continue
-  [[ "$skill_name" == "knowledge" ]] && continue
-  [[ ! -f "$skill_dir/SKILL.md" ]] && continue
-
-  mkdir -p "$SKILLS_DIR/$skill_name"
-  cp "$skill_dir/SKILL.md" "$SKILLS_DIR/$skill_name/SKILL.md"
-  echo "  ✅ $skill_name"
-done
+if [ "$REPO_DIR" = "$SKILLS_DIR" ]; then
+  echo "  ⏭️  Repo is skills dir — skipping copy (already in place)"
+  for skill_dir in "$REPO_DIR"/*/; do
+    skill_name=$(basename "$skill_dir")
+    [[ "$skill_name" == "workspace" ]] && continue
+    [[ "$skill_name" == "knowledge" ]] && continue
+    [[ ! -f "$skill_dir/SKILL.md" ]] && continue
+    echo "  ✅ $skill_name"
+  done
+else
+  for skill_dir in "$REPO_DIR"/*/; do
+    skill_name=$(basename "$skill_dir")
+    [[ "$skill_name" == "workspace" ]] && continue
+    [[ "$skill_name" == "knowledge" ]] && continue
+    [[ ! -f "$skill_dir/SKILL.md" ]] && continue
+    mkdir -p "$SKILLS_DIR/$skill_name"
+    cp "$skill_dir/SKILL.md" "$SKILLS_DIR/$skill_name/SKILL.md"
+    echo "  ✅ $skill_name"
+  done
+fi
 
 # 2. Workspace files (AGENTS.md, MEMORY.md)
 echo "🧠 Deploying workspace..."
